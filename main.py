@@ -98,8 +98,9 @@ def detectarFormas2(imagen, idImg, recorte, nameWindow):
                 else:
                     # print("recorte")
                     # cv2.putText(imagen, 'rect', (x, y - 5), 1, 1.5, (0, 255, 0), 2)
-                    #idImg, imagen = recorte.crop(carta, cnts, idImg, bordes)
-                    idImg, imagen = recorte.crop2(carta, cnts, idImg, imagengris)
+                    idImg, imagen = recorte.crop2(carta, cnts, idImg, bordes)
+                    #Para tomar gris y bordes al tiempo
+                    #idImg, imagen = recorte.crop2(carta, cnts, idImg, imagengris)
         i += 1
     return carta, idImg
 

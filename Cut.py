@@ -1,5 +1,5 @@
 import cv2
-
+from  pruebas import  predecir
 class Cut:
     # function to crop image
     # Parameters: image to crop, contour, and the image number
@@ -31,8 +31,8 @@ class Cut:
                     # pulls crop out of the image based on dimensions
                     idNum += 1
                     # writes the new file in the Crops folder
-                    cv2.imwrite('Crops/' + '3_' + str(idNum) +
-                                '.jpg', new_img)
+                    cv2.imwrite('Crops/new_test' + '1_' + str(idNum) +
+                                '.jpg', image)
                     print("Se tomó el recorte", idNum)
 
         # returns a number incremented up for the next file name
@@ -42,7 +42,6 @@ class Cut:
         pru = image
         new_img = bordes
         idNum = num
-
         # cycles through all the contours to crop all
         for c in contours:
             area = cv2.contourArea(c)
@@ -62,15 +61,17 @@ class Cut:
                 # print("Oprima c para recortar")
                 new_img = bordes[y:y + h, x:x + w]
                 gris = gris[y:y + h, x:x + w]
-
                 if cv2.waitKey(1) & 0xFF == ord('c'):
                     # pulls crop out of the image based on dimensions
                     idNum += 1
                     # writes the new file in the Crops folder
-                    cv2.imwrite('Crops/b_n/' + '1_' + str(idNum) +
-                                '.jpg', gris)
-                    cv2.imwrite('Crops/bordes/' + '1_' + str(idNum) +
+                    # cv2.imwrite('Crops/' + '1_' + str(idNum) +
+                    #             '.jpg', gris)
+                    cv2.imwrite('Crops/new_test/' + '1_' + str(idNum) +
                                 '.jpg', new_img)
+                    predecir('Crops/new_test/' + '1_' + str(idNum) +
+                                '.jpg',gris,c)
+
                     print("Se tomó el recorte", idNum)
 
         # returns a number incremented up for the next file name

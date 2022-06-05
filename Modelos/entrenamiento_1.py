@@ -6,21 +6,23 @@ import keras
 import numpy as np
 import cv2
 from sklearn.model_selection import KFold
+import os
 ###Importar componentes de la red neuronal
 from keras.models import Sequential
 from keras.layers import InputLayer, Input, Conv2D, MaxPool2D, Reshape, Dense, Flatten
 
 
-def cargarDatos(rutaOrigen, numeroCategorias, limite, ancho, alto):
+def cargarDatos(rutaOrigen, numeroCategorias, ancho, alto):
     imagenesCargadas = []
     valorEsperado = []
-    for categoria in range(0, numeroCategorias):
-        for idImagen in range(0, limite[categoria]):
-            ruta = rutaOrigen + str(categoria) + "/" + str(categoria) + "_" + str(idImagen) + ".jpg"
-            print(ruta)
+    for categoria in range(1, numeroCategorias):
+        dir=rutaOrigen + str(categoria)
+        files = os.listdir(dir)
+        for file_name in files:
+            ruta=dir+ "/"+file_name
             imagen = cv2.imread(ruta)
             imagen = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
-            imagen = cv2.resize(imagen, (ancho, alto))
+            imagen = cv2.resize(imagen, (ancho, alto), interpolation = cv2.INTER_AREA)
             imagen = imagen.flatten()
             imagen = imagen / 255
             imagenesCargadas.append(imagen)
@@ -40,11 +42,10 @@ num_channels = 1        #Si imagen blanco/negro = 1     rgb = 3
 img_shape = (width, height, num_channels)
 #cantidad elementos clasificar
 num_class = 10
-cantidadDatosEntrenamiento = [120, 120, 120, 120, 120, 120, 120, 120, 120, 120]
-cantidadPruebas = [30, 30, 30, 30, 30, 30, 30, 30, 30, 30]
+dirc="E:/david/U PC/2022-1/Inteligentes/Parte 2/MachineLEarning/Parcial/Crops/cartas_dataset/"
 #CargaImagen
-imagenes,probabilidades = cargarDatos("crops/train/", num_class, cantidadDatosEntrenamiento, width, height)
-imagenesPrueba,probabilidadesPrueba = cargarDatos("crops/test/", num_class, cantidadPruebas, width, height)
+imagenes,probabilidades = cargarDatos(dirc+"train/", num_class, width, height)
+imagenesPrueba,probabilidadesPrueba = cargarDatos(dirc+"test/", num_class, width, height)
 
 
 
@@ -72,7 +73,8 @@ model.add(Dense(num_class, activation="softmax"))
 ######COMPILACIÓN
 # model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=['accuracy',
-tf.keras.metrics.Precision(),tf.keras.metrics.Recall(),tfa.metrics.F1Score(num_classes=2, average="micro")])
+tf.keras.metrics.Precision(),tf.keras.metrics.Recall(),tfa.metrics.F1Score(num_classes=2, average="micro"),
+tfa.metrics.MultiLabelConfusionMatrix(num_classes=2)])
 
 
 #CROSS-VALIDATION
@@ -96,8 +98,8 @@ inicio = time.time()
 for train, test in kFold.split( X, y):
     print("##################Training fold ",numero_fold,"###################################")
     model.fit(X[train], y[train],
-            epochs=30,         #Epocas--> Cantidad de veces que debe repetir el entrenamiento
-            batch_size=120      #Batch --> Cantidad de datos que puede cargar en memoria para realizar el entrenamiento en una fase
+            epochs=20,         #Epocas--> Cantidad de veces que debe repetir el entrenamiento
+            batch_size=191      #Batch --> Cantidad de datos que puede cargar en memoria para realizar el entrenamiento en una fase
             )
     metricas=model.evaluate(X[test],y[test])
     f1score_fold.append(metricas[4])
@@ -112,7 +114,7 @@ for train, test in kFold.split( X, y):
 fin = time.time()
 # Tiempo de ejecución.
 tiempo_total = fin - inicio
-print(tiempo_total)
+print(tiempo_total,"tiempo total")
 
 for i in range(0,len(loss_fold)):
   print("Fold ",(i+1),"- Loss(Error)=",loss_fold[i]," - Accuracy=",accuracy_fold[i]," - Precision=",precision_fold[i]," - Recall=",recall_fold[i]," - F1 Score=",f1score_fold[i])
@@ -124,7 +126,7 @@ print("Recall",np.mean(recall_fold))
 print("F1 Score",np.mean(f1score_fold))
 
 #Guardar el modelo
-ruta = "models/modelo_1.h5"
+ruta = "models/modelo_1v2.h5"
 model.save(ruta)
 
 # Resumen - Estructura de la red
