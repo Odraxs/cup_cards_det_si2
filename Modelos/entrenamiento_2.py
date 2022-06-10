@@ -73,8 +73,7 @@ model.add(Dense(num_class, activation="softmax"))
 ######COMPILACIÓN
 # model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=['accuracy',
-tf.keras.metrics.Precision(),tf.keras.metrics.Recall(),tfa.metrics.F1Score(num_classes=2, average="micro"),
-tfa.metrics.MultiLabelConfusionMatrix(num_classes=10)])
+tf.keras.metrics.Precision(),tf.keras.metrics.Recall(),tfa.metrics.F1Score(num_classes=2, average="micro")])
 
 
 #CROSS-VALIDATION
@@ -84,7 +83,6 @@ precision_fold=[]
 recall_fold=[]
 f1score_fold=[]
 loss_fold=[]
-matrix_fold=[]
 
 kFold= KFold(n_splits=5,shuffle=True)
 
@@ -99,11 +97,10 @@ inicio = time.time()
 for train, test in kFold.split( X, y):
     print("##################Training fold ",numero_fold,"###################################")
     model.fit(X[train], y[train],
-            epochs=20,         #Epocas--> Cantidad de veces que debe repetir el entrenamiento
+            epochs=10,         #Epocas--> Cantidad de veces que debe repetir el entrenamiento
             batch_size=191      #Batch --> Cantidad de datos que puede cargar en memoria para realizar el entrenamiento en una fase
             )
     metricas=model.evaluate(X[test],y[test])
-    matrix_fold.append(metricas[5])
     f1score_fold.append(metricas[4])
     recall_fold.append(metricas[3])
     precision_fold.append(metricas[2])
@@ -120,15 +117,13 @@ print(tiempo_total,"tiempo total")
 
 for i in range(0,len(loss_fold)):
   print("Fold ",(i+1),"- Loss(Error)=",loss_fold[i]," - Accuracy=",accuracy_fold[i],
-        " - Precision=",precision_fold[i]," - Recall=",recall_fold[i]," - F1 Score=",f1score_fold[i],
-        " - Matrix=",matrix_fold[i])
+        " - Precision=",precision_fold[i]," - Recall=",recall_fold[i]," - F1 Score=",f1score_fold[i])
 print("-------Average scores-------")
 print("Loss",np.mean(loss_fold))
 print("Accuracy",np.mean(accuracy_fold))
 print("Precision",np.mean(precision_fold))
 print("Recall",np.mean(recall_fold))
 print("F1 Score",np.mean(f1score_fold))
-print("Matrix",np.mean(matrix_fold))
 
 #Guardar el modelo
 ruta = "models/modelo_2.h5"

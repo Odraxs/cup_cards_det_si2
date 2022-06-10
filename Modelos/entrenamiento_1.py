@@ -73,8 +73,7 @@ model.add(Dense(num_class, activation="softmax"))
 ######COMPILACIÓN
 # model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=['accuracy',
-tf.keras.metrics.Precision(),tf.keras.metrics.Recall(),tfa.metrics.F1Score(num_classes=2, average="micro"),
-tfa.metrics.MultiLabelConfusionMatrix(num_classes=2)])
+tf.keras.metrics.Precision(),tf.keras.metrics.Recall(),tfa.metrics.F1Score(num_classes=2, average="micro")])
 
 
 #CROSS-VALIDATION

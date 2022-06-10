@@ -65,12 +65,12 @@ class Cut:
                     # pulls crop out of the image based on dimensions
                     idNum += 1
                     # writes the new file in the Crops folder
-                    # cv2.imwrite('Crops/' + '1_' + str(idNum) +
-                    #             '.jpg', gris)
-                    cv2.imwrite('Crops/new_test/' + '1_' + str(idNum) +
+                    cv2.imwrite('Crops/desto/b_n/' + '1_' + str(idNum) +
+                                '.jpg', gris)
+                    cv2.imwrite('Crops/desto/bordes/' + '1_' + str(idNum) +
                                 '.jpg', new_img)
-                    predecir('Crops/new_test/' + '1_' + str(idNum) +
-                                '.jpg',gris,c)
+                    # predecir('Crops/new_test/' + '1_' + str(idNum) +
+                    #             '.jpg',gris,c)
 
                     print("Se tomó el recorte", idNum)
 
