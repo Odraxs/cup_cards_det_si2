@@ -1,4 +1,6 @@
 import os
+import time
+
 import cv2
 from Parcial.Prediccion import Prediccion
 
@@ -12,13 +14,16 @@ def predecir():
     dirc = "E:/david/U PC/2022-1/Inteligentes/Parte 2/MachineLEarning/Parcial/Crops/cartas_dataset/"
     #dirc = "E:/david/U PC/2022-1/Inteligentes/Parte 2/MachineLEarning/Parcial/"
     dirm = "E:/david/U PC/2022-1/Inteligentes/Parte 2/MachineLEarning/Parcial/Modelos/models/"
-    miModeloCNN = Prediccion(dirm + "modelo_2.h5", ancho, alto)
+    miModeloCNN = Prediccion(dirm + "modelo_3.h5", ancho, alto)
     files = os.listdir(dirc + "nuevas/")
     for file in files:
         imagen = cv2.imread(dirc + "nuevas/" + file)
         imagenGris = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
         # imagen=cv2.imread(dirc+direccion)
+        inicio = time.time()
         claseResultado = miModeloCNN.predecir(imagenGris)
+        fin = time.time()
+        print(fin-inicio,"tiempo respuesta")
         #print("La imagen cargada es ", clases[claseResultado - 1])
         suma.acumulado += clases[claseResultado - 1]
         msg1="prediccion "+str(clases[claseResultado - 1])

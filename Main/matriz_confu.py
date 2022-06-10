@@ -10,7 +10,7 @@ num_class = 10
 dirc="E:/david/U PC/2022-1/Inteligentes/Parte 2/MachineLEarning/Parcial/Crops/cartas_dataset/"
 dir_root="E:/david/U PC/2022-1/Inteligentes/Parte 2/MachineLEarning/Parcial/Modelos/models/"
 ###  CAMBIAR RUTAS PARA MOSTRAR LOS OTROS MODELOS    ###
-miModeloCNN = Prediccion(dir_root+"modelo_3.h5", width, height)
+miModeloCNN = Prediccion(dir_root+"modelo_1v2.h5", width, height)
 imagenesPrueba,probabilidadesPrueba = miModeloCNN.cargarDatos( dirc+"test/", num_class, width, height)
 
 model= load_model(dir_root+"/modelo_3.h5",custom_objects={"Addons>F1Score":tfa.metrics.F1Score(num_classes=2, average="micro")})

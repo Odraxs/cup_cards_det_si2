@@ -97,7 +97,7 @@ inicio = time.time()
 for train, test in kFold.split( X, y):
     print("##################Training fold ",numero_fold,"###################################")
     model.fit(X[train], y[train],
-            epochs=20,         #Epocas--> Cantidad de veces que debe repetir el entrenamiento
+            epochs=15,         #Epocas--> Cantidad de veces que debe repetir el entrenamiento
             batch_size=191      #Batch --> Cantidad de datos que puede cargar en memoria para realizar el entrenamiento en una fase
             )
     metricas=model.evaluate(X[test],y[test])
