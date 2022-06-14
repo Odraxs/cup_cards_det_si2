@@ -142,7 +142,7 @@ def gui(nameWindow):
         print('No ingresó una cantidad de modelos válido')
         exit()
     constructorVentana(nameWindow)
-    idImg = 351
+    idImg = 27
     while True:
         k = cv2.waitKey(1)
         _, imagen = camara.read()

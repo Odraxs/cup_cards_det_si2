@@ -14,7 +14,7 @@ def predecir():
     dirc = "E:/david/U PC/2022-1/Inteligentes/Parte 2/MachineLEarning/Parcial/Crops/cartas_dataset/"
     #dirc = "E:/david/U PC/2022-1/Inteligentes/Parte 2/MachineLEarning/Parcial/"
     dirm = "E:/david/U PC/2022-1/Inteligentes/Parte 2/MachineLEarning/Parcial/Modelos/models/"
-    miModeloCNN = Prediccion(dirm + "modelo_3.h5", ancho, alto)
+    miModeloCNN = Prediccion(dirm + "modelo_2.h5", ancho, alto)
     files = os.listdir(dirc + "nuevas/")
     for file in files:
         imagen = cv2.imread(dirc + "nuevas/" + file)
@@ -42,5 +42,5 @@ def dar_texto_resaltar_img(imagen, mensaje):
     cv2.putText(imagen, mensaje, (10, 70), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
     #cv2.drawContours(imagen, [figura_actual], 0, (0, 0, 255), 2)
 
-predecir()
+#predecir()
 

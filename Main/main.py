@@ -93,7 +93,7 @@ acumulado = 0  # Lleva el acumulado de la suma de las cartas
 flag = False  # Bandera que se habilita para realizar las operaciones
 video = cv2.VideoCapture(1)  # Abrir camara
 dir_root="E:/david/U PC/2022-1/Inteligentes/Parte 2/MachineLEarning/Parcial/Modelos/models/"
-modeloCNN = Prediccion(dir_root+"modelo_1v2.h5", 128, 128) #Cargar el modelo
+modeloCNN = Prediccion(dir_root+"modelo_2.h5", 128, 128) #Cargar el modelo
 
 while True:
     _, imagen = video.read()
